@@ -1,0 +1,36 @@
+= Kafka Join Example
+
+== How to run
+
+. update kafka brokers in `application.yml`
+. Pre create below topics.
+.. `kp.department`
+.. `kp.employee`
+.. `kp.department.employee`
+.. `kp.internal.employee`
+. Start the application
++
+----
+mvn spring-boot:run
+----
+. Push Employee data.
++
+----
+curl --location --request POST 'http://localhost:8080/department' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": "1",
+    "name": "kp",
+    "deptId": "1"
+}'
+----
+. Push Deparment data.
++
+----
+curl --location --request POST 'http://localhost:8080/department' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": "1",
+    "name": "cse"
+}'
+----

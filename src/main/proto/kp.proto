@@ -1,0 +1,24 @@
+
+syntax = "proto3";
+
+package io.github.kprasad99.streams.proto;
+
+option java_package = "io.github.kprasad99.streams.proto";
+option java_multiple_files = true;
+
+message Department {
+   string id = 1;
+   string name = 2;
+}
+
+message Employee {
+   string id = 1;
+   string name = 2;
+   string deptId = 3;
+}
+
+message DepartmentData {
+   string id = 1;
+   string name = 2;
+   repeated Employee employees = 3;
+}

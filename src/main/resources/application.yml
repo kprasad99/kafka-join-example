@@ -1,0 +1,27 @@
+spring:
+  application.name: kafka-join-example
+spring.kafka.bootstrap-servers: localhost:19092,localhost:29092,localhost:39092
+spring.cloud.stream.kafka.streams.bindings.process-in-0.consumer.valueSerde: io.github.kprasad99.streams.AppSerdes$EmployeeSerde
+spring.cloud.stream.kafka.streams.bindings.process-in-1.consumer.valueSerde: io.github.kprasad99.streams.AppSerdes$DepartmentSerde
+spring.cloud.stream.kafka.streams.bindings.process-out-0.producer.valueSerde: io.github.kprasad99.streams.AppSerdes$DepartmentDataSerde
+spring.cloud.stream:
+  bindings:
+    process-in-0:
+      destination: kp.employee
+    process-in-1:
+      destination: kp.department
+    process-out-0:
+      destination: kp.department.employee
+  kafka.streams.binder:
+    brokers:
+      - localhost:19092
+      - localhost:29092
+      - localhost:39092
+    #    replication-factor: 3
+    #    required-acks: 2
+    min-partition-count: 5
+    configuration:
+      commit.interval.ms: 100
+      default:
+        key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        value.serde: io.github.kprasad99.streams.serde.ProtobufSerde
