@@ -1,19 +1,20 @@
 package io.github.kprasad99.streams;
 
-import io.github.kprasad99.streams.proto.Department;
-import io.github.kprasad99.streams.proto.DepartmentData;
-import io.github.kprasad99.streams.proto.Employee;
-import lombok.extern.slf4j.Slf4j;
+import java.time.Duration;
+import java.util.function.BiFunction;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.kstream.JoinWindows;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.kafka.streams.kstream.StreamJoined;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.Duration;
-import java.util.function.BiFunction;
+import io.github.kprasad99.streams.proto.Department;
+import io.github.kprasad99.streams.proto.DepartmentData;
+import io.github.kprasad99.streams.proto.Employee;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
@@ -35,7 +36,7 @@ public class StreamsConfiguration {
 					data.addEmployees(v1);
 					return data.build();
 				}
-			}, JoinWindows.of(Duration.ofMinutes(1))).peek((k, v) -> {
+			}, JoinWindows.of(Duration.ofMinutes(1)), StreamJoined.with(Serdes.String(), AppSerdes.employee(),AppSerdes.department())).peek((k, v) -> {
 				log.info("Key->{}, value->{}", k, v);
 			}).filter((k, v) -> v != null);
 		};

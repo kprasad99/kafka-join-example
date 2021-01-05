@@ -1,13 +1,19 @@
 package io.github.kprasad99.streams;
 
+import org.apache.kafka.common.serialization.Serdes;
+
 import io.github.kprasad99.streams.proto.Department;
 import io.github.kprasad99.streams.proto.DepartmentData;
 import io.github.kprasad99.streams.proto.Employee;
 import io.github.kprasad99.streams.protobuf.serialization.ProtobufDeserializer;
 import io.github.kprasad99.streams.protobuf.serialization.ProtobufSerializer;
-import org.apache.kafka.common.serialization.Serdes;
 
 public class AppSerdes {
+	
+	private  AppSerdes() {
+		
+	}
+	
     public static final class DepartmentSerde extends Serdes.WrapperSerde<Department> {
         public DepartmentSerde() {
             super(new ProtobufSerializer<>(), new ProtobufDeserializer<>(Department.class));
@@ -29,4 +35,8 @@ public class AppSerdes {
     public static EmployeeSerde employee() {
     	return new EmployeeSerde();
     }
+
+	public static DepartmentSerde department() {
+		return new DepartmentSerde();
+	}
 }

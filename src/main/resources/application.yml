@@ -5,6 +5,8 @@ spring.cloud.stream.kafka.streams.bindings.process-in-0.consumer.valueSerde: io.
 spring.cloud.stream.kafka.streams.bindings.process-in-1.consumer.valueSerde: io.github.kprasad99.streams.AppSerdes$DepartmentSerde
 spring.cloud.stream.kafka.streams.bindings.process-out-0.producer.valueSerde: io.github.kprasad99.streams.AppSerdes$DepartmentDataSerde
 spring.cloud.stream:
+  function:
+    definition: process 
   bindings:
     process-in-0:
       destination: kp.employee
@@ -24,4 +26,22 @@ spring.cloud.stream:
       commit.interval.ms: 100
       default:
         key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-        value.serde: io.github.kprasad99.streams.serde.ProtobufSerde
+#        value.serde: io.github.kprasad99.streams.serde.ProtobufSerde
+management.health.binders.enabled: true
+management.endpoint.health.show-details: ALWAYS
+management:
+  endpoints.web.exposure.include:
+    - actuator
+    - info
+    - health
+    - metrics
+    - prometheus
+    - kafkastreamstopology
+    - startup
+  endpoint:
+    kafkastreamstopology:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
